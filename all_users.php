@@ -32,13 +32,13 @@
 				}catch(PDOException$e){
 					throw new PDOException($e->getMessage(),(int)$e->getCode());
 				}
-				$stmt = $pdo->query("SELECT * FROM users WHERE username LIKE 'e%' AND status_id LIKE '1' ");
+				$stmt = $pdo->query('select users.id as user_id, username, email, s.name as status from users join status s on users.status_id = s.id');
 				while($row = $stmt->fetch()){
 					echo "<tr>";
-					echo "<td>".$row['id']."</td>";
+					echo "<td>".$row['user_id']."</td>";
 					echo "<td>".$row['username']."</td>";
 					echo "<td>".$row['email']."</td>";
-					echo "<td>".$row['status_id']."</td>";
+					echo "<td>".$row['status']."</td>";
 					echo "</tr>";
 				}
 			?>
