@@ -10,16 +10,10 @@
 		echo"<form action='all_usersV2.php' mehtode='POST'>";
 		  echo"<p>
                 <label>Start with letter : </label>
-				<INPUT type='text''name='nom' value= 'a' size='10'>
+				<INPUT type='text''name='nom' value= '' size='10'>
 				<label>And status is : </label>
-				<INPUT type='text''name='nom' value= 'Active account' size='10'>
-				<INPUT type='submit' name='nom' value='Envoyer'></p>
-				
-			</form>";
-				
-				
-				
-				
+				<INPUT type='text''name='status' value= 'Active account' size='10'>
+				<INPUT type='submit' name='nom' value='Envoyer'></p>";		
 	?>	
 		<table border="1">
 			<tr>
@@ -46,7 +40,10 @@
 				}catch(PDOException$e){
 					throw new PDOException($e->getMessage(),(int)$e->getCode());
 				}
-				$stmt = $pdo->query('select users.id as user_id, username, email, s.name as status from users join status s on users.status_id = s.id');
+					if(isset($_POST['nom'])){
+						$start_letter=$_POST['nom'];
+				$sql = "select users.id as user_id, username, email, s.name as status from users join status s on users.status_id = s.id where username like '$start_letter%'";
+				$stmt = $pdo->query($sql);
 				while($row = $stmt->fetch()){
 					echo "<tr>";
 					echo "<td>".$row['user_id']."</td>";
@@ -55,5 +52,7 @@
 					echo "<td>".$row['status']."</td>";
 					echo "</tr>";
 				}
+				}
+				echo"</form>";
 			?>
 		</table>
