@@ -7,7 +7,7 @@
 <body>
 	<h1><b>All user</b></h1>
 	<?php
-		echo"<form action='all_usersV2.php' mehtode='POST'>";
+		echo"<form action='all_usersV2.php' mehtode='GET'>";
 		  echo"<p>
                 <label>Start with letter : </label>
 				<INPUT type='text''name='nom' value= '' size='10'>
@@ -40,7 +40,7 @@
 				}catch(PDOException$e){
 					throw new PDOException($e->getMessage(),(int)$e->getCode());
 				}
-					if(isset($_POST['nom'])){
+					if(isset($_GET['nom'])){
 						$start_letter=$_POST['nom'];
 				$sql = "select users.id as user_id, username, email, s.name as status from users join status s on users.status_id = s.id where username like '$start_letter%'";
 				$stmt = $pdo->query($sql);
