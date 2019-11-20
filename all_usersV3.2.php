@@ -6,7 +6,21 @@
 <head>
 <body>
 	<h1><b>All user</b></h1>
-		
+	<?php
+		echo"<form action='all_usersV2.php' mehtode='POST'>";
+		  echo"<p>
+                <label>Start with letter : </label>
+				<INPUT type='text''name='nom' value= 'a' size='10'>
+				<label>And status is : </label>
+				<INPUT type='text''name='nom' value= 'Active account' size='10'>
+				<INPUT type='submit' name='nom' value='Envoyer'></p>
+				
+			</form>";
+				
+				
+				
+				
+	?>	
 		<table border="1">
 			<tr>
 				<b>

@@ -6,7 +6,6 @@
 <head>
 <body>
 	<h1><b>All user</b></h1>
-		
 		<table border="1">
 			<tr>
 				<b>
@@ -32,7 +31,11 @@
 				}catch(PDOException$e){
 					throw new PDOException($e->getMessage(),(int)$e->getCode());
 				}
-				$stmt = $pdo->query('select users.id as user_id, username, email, s.name as status from users join status s on users.status_id = s.id');
+				
+				$start_letter= 'e';
+				$status_id= 2 ;
+				$sql = "select users.id as user_id, username, email, s.name as status from users join status s on users.status_id = s.id where username like '$start_letter%'and status_id =$status_id order by username";
+				$stmt = $pdo->query($sql);
 				while($row = $stmt->fetch()){
 					echo "<tr>";
 					echo "<td>".$row['user_id']."</td>";
