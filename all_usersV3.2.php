@@ -5,25 +5,6 @@
 	<meta charset="utf-8">
 <head>
 <body>
-	<h1><b>All user</b></h1>
-	<?php
-		echo"<form action='all_usersV2.php' mehtode='GET'>";
-		  echo"<p>
-                <label>Start with letter : </label>
-				<INPUT type='text''name='nom' value= '' size='10'>
-				<label>And status is : </label>
-				<INPUT type='text''name='status' value= 'Active account' size='10'>
-				<INPUT type='submit' name='nom' value='Envoyer'></p>";		
-	?>	
-		<table border="1">
-			<tr>
-				<b>
-				<td>id</td>
-				<td>UserName</td>
-				<td>Email</td>
-				<td>Status</td>
-				</b>
-			</tr>
 			<?php 
 				$host='localhost';
 				$db='my_activities';
@@ -40,19 +21,50 @@
 				}catch(PDOException$e){
 					throw new PDOException($e->getMessage(),(int)$e->getCode());
 				}
-					if(isset($_GET['nom'])){
-						$start_letter=$_POST['nom'];
-				$sql = "select users.id as user_id, username, email, s.name as status from users join status s on users.status_id = s.id where username like '$start_letter%'";
-				$stmt = $pdo->query($sql);
-				while($row = $stmt->fetch()){
-					echo "<tr>";
-					echo "<td>".$row['user_id']."</td>";
-					echo "<td>".$row['username']."</td>";
-					echo "<td>".$row['email']."</td>";
-					echo "<td>".$row['status']."</td>";
-					echo "</tr>";
+				function get($name) {
+				return isset($_GET[$name]) ? $_GET[$name] : null;
 				}
-				}
-				echo"</form>";
 			?>
-		</table>
+			
+			<h1>All Users</h1>
+
+			<form action="all_users.php" method="get">
+				Start with letter:
+				<input name="start_letter" type="text" value="<?php echo get("start_letter") ?>">
+				and status is:
+				<select name="status_id">
+					<option value="1" <?php if (get("status_id") == 1) echo 'selected' ?>>Waiting for account validation</option>
+					<option value="2" <?php if (get("status_id") == 2) echo 'selected' ?>>Active account</option>
+				</select>
+				<input type="submit" value="OK">
+			</form>
+			
+			<?php
+			$start_letter = htmlspecialchars(get("start_letter").'%');
+			$status_id = (int)get("status_id");
+			$sql = "select users.id as user_id, username, email, s.name as status from users join status s on users.status_id = s.id where username like :start_letter and status_id = :status_id order by username";
+			$stmt = $pdo->prepare($sql);
+			$stmt->execute(['start_letter' => $start_letter, 'status_id' => $status_id]);
+			?>
+			
+			<table>
+				<tr>
+					<th>Id</th>
+					<th>Username</th>
+					<th>Email</th>
+					<th>Status</th>
+				</tr>
+				
+				<?php while ($row = $stmt->fetch()) { ?>
+					<tr>
+						<td><?php echo $row['user_id'] ?></td>
+						<td><?php echo $row['username'] ?></td>
+						<td><?php echo $row['email'] ?></td>
+						<td><?php echo $row['status'] ?></td>
+					</tr>
+				<?php } ?>
+			</table>
+
+
+</body>
+</html
