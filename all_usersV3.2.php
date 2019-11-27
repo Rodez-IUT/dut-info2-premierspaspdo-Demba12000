@@ -28,7 +28,7 @@
 			
 			<h1>All Users</h1>
 
-			<form action="all_users.php" method="get">
+			<form action="all_usersV3.2.php" method="get">
 				Start with letter:
 				<input name="start_letter" type="text" value="<?php echo get("start_letter") ?>">
 				and status is:
@@ -42,7 +42,7 @@
 			<?php
 			$start_letter = htmlspecialchars(get("start_letter").'%');
 			$status_id = (int)get("status_id");
-			$sql = "select users.id as user_id, username, email, s.name as status from users join status s on users.status_id = s.id where username like :start_letter and status_id = :status_id order by username";
+			$sql = "select users.id as user_id, username, email, s.name as status from users join status s on users.status_id = s.id where username LIKE :start_letter and status_id = :status_id order by username";
 			$stmt = $pdo->prepare($sql);
 			$stmt->execute(['start_letter' => $start_letter, 'status_id' => $status_id]);
 			?>
