@@ -33,8 +33,8 @@
 				<input name="start_letter" type="text" value="<?php echo get("start_letter") ?>">
 				and status is:
 				<select name="status_id">
-					<option value="1" <?php if (get("status_id") == 1) echo 'selected' ?>>Waiting for account validation</option>
-					<option value="2" <?php if (get("status_id") == 2) echo 'selected' ?>>Active account</option>
+					<option value="1" <?php if (get("status_id") == 1) echo 'selected' ?>>Waiting for account validation <a href="relentless.com"> ask for deletion</a></option>
+					<option value="2" <?php if (get("status_id") == 2) echo 'selected' ?>>Active account<a href="relentless.com"> ask for deletion</a></option></option>
 					<option value="3" <?php if (get("status_id") == 2) echo 'selected' ?>>Waiting for account deletion </option>
 					
 				</select>
